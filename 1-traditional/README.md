@@ -2,7 +2,7 @@
 
 Traditionally, a Component requiring special libraries, beyond the standard installation, would be deployed with one or more shared library dependency(ies) which would ensure that REDHAWK installed the library(ies) at a GPP before loading and executing the Component.  Something like GNURadio which has a runtime engine requires a different approach.  
 
-One possible path to support this traditional deployment mechanism is to pre-provision the GPP(s) with GNURadio and the associated `redhawk_integration_python` package by directly installing each locally to the GPP host.  Additionally, any end-user package dependencies for the associated Flow Graph would also need to be installed at each GPP.
+One possible path to support this traditional deployment mechanism is to pre-provision the GPP(s) with GNURadio and the associated `redhawk_integration_python` package by directly installing both, locally, to the GPP host.  Additionally, any end-user package dependencies for the associated Flow Graph would also need to be installed at each GPP.
 
 ## Why?
 
@@ -18,16 +18,48 @@ The steps are as direct as it sounds.  Wherever there is a Device Manager with a
 
  > **Note:** You cannot use a mix of provisionings in this case unless you manually specify each GPP that will be running a specific Component-wrapped Flow Graph.
 
-## Component Generation
-
-A developer's system environment must also include GNURadio and `gr-redhawk_integration_python` so that, once also installed, the `gr-component_converter` can function properly.  Please see the [README.md][gr-cc] for more details on the converter's use cases and limitations.
-
-
 ## Technical Considerations
 
 This use case involves a standard GPP (i.e., from REDHAWK SDR's published RPM).  It has no additional (unique) allocable properties that might indicate the presence of GNURadio or other end-user GNURadio libraries.  Therefore, the deployment requires _all*_ GPPs be provisioned identically since the Component may be deployed to any of them.
 
- > Note: If you choose to replace a subset of GPPs, you will need to manually specify the target during application deployment.
+ > Note: If you choose to replace a subset of GPPs, you will need to manually specify the target GPP, for the Flow Graph Components, during application deployment.
+
+## Installation
+
+In each of these cases, the user will need root-level permissions in order to install the Source and Sink blocks from the [integration package][gr-rip].
+
+### On a GPP Host
+
+Install the integration package:
+
+```
+make gpp
+```
+
+### On a Development Host
+
+Install both the integration package and the conversion tool:
+
+```
+make development
+```
+
+Then proceed to [component generation](#component-generation).
+
+## Component Generation
+
+Please see the [README.md][gr-cc] for more details on the converter's use cases and limitations.  The short form of usage is as follows:
+
+```
+# From gr-component_converter
+./run.py path/user.grc [output_path]
+```
+
+ > Note: if not provided, `output_path` will be the current working directory.
+
+The resulting `output_path` will have the Component, ready to install in the `SDRROOT/dom/components` location by running `build.sh install` from the system hosting the Domain's SDRROOT path.
+
 
 
  [gr-cc]: ../gr-component_converter/README.md
+ [gr-rip]: ../gr-redhawk_integration_python/README.md
