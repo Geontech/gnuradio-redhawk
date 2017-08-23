@@ -1,8 +1,8 @@
 # Docker-aware GPP
 
-In this approach, one replaces the standard GPP with [an extended version][docker-gpp] that has been modified to permit calling on the Docker daemon at runtime.  This new GPP also includes additional, allocable properties that assist Flow Graph Components in being deployed specifically to these GPPs as well as executing the Component within its own, containerized runtime environment. 
+In this approach, one replaces the standard GPP with [an extended version][docker-gpp] that has been modified to permit calling on the Docker daemon when Components are loaded.  This new GPP also includes additional, allocable properties that assist Flow Graph Components in being deployed specifically to these GPPs as well as executing the Component within its own, containerized runtime environment.
 
- > Note: Support is TBD.  Proceed at your own risk.
+This is the deployment strategy described at GRCon 2017.
 
 ## Why?
 
