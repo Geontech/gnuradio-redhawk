@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+function add () {
+    # Nothing special about this, run update and install whatever specified.
+    apt-get update && apt-get install -yq $@
+}
+
+function clean () {
+    echo Running clean-up of apt
+    apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+}
+
+$@
