@@ -54,7 +54,7 @@ Examples:
 EOF
 }
 
-if [[ $# -eq 0 ]]; then
+if [[ $# -eq 0 ]] || [[ $1 == "--help" ]]; then
     usage
     exit 0
 fi

@@ -8,11 +8,11 @@ This is the deployment strategy described at GRCon 2017.
 
 By utilizing this modified GPP, the generated Component can have additional deployment requirements (allocable properties) that assist REDHAWK in locating a GPP that has the Component's associated Docker image locally cached.  This means the [traditional][traditional-technical-considerations] no longer apply since we're using more of the REDHAWK infrastructure and automation to our advantage.
 
-**TBD:** In a future release of the [docker-gpp][docker-gpp], the allocation properties for image locating will be replaced with `docker pull...` requests (vs. the current `docker inspect` check).  This will allow the GPP to dynamically load the Component's image in preparation for executing the Component's container.  This adds an extra layer of automatic provisioning via Docker that already exists for traditional Components. 
+**TBD:** In a future release of the [docker-gpp][docker-gpp], the allocation properties for image locating will be replaced with `docker pull...` requests (vs. the current `docker images...` check).  This will allow the GPP to dynamically load the Component's image in preparation for executing the Component's container.  This adds an extra layer of automatic provisioning via Docker that already exists for traditional Components. 
 
 ## How?
 
-The following modifications must take place:
+The process for developing this support was as follows.  These steps have already occurred.  [See installation](#installation).
 
 1. Extend the [Docker-REDHAWK][docker-redhawk] Runtime image to be a new base image with:
    1. GNURadio
@@ -26,19 +26,98 @@ The following modifications must take place:
 
  > Note 1: In this scenario, there's no need to provision the two images with the end user's specific support libraries since each Component will have its own derived image for those needs.
 
- > Note 2: The Runtime and Development images can be derived from [Docker-REDHAWK-Ubuntu][docker-redhawk-ubuntu], which is currently based on Ubuntu 16.04, if that is your preference.
-
-## Component Generation
-
-Components generated using the [Component Converter][gr-cc] need the **TBD** flag set to generate a Docker-aware GPP -compatible implementation.  This will instantiate the allocable property relationships to ensure the Component is only ever executed on a Docker-aware GPP.
-
-Recall, in this method, the GPP executes a Component within a Docker Container.  Therefore once the Component project is created, one must deploy a Docker image, derived from the above new Runtime image, that has the Component installed in the `SDRROOT` _of the image_.
-
-Moreover, this Component also needs to be installed in the Domain's SDRROOT.  This will allow you to create Waveforms that reference the Component as well as allow the Domain to launch Waveforms containing this Component.
+ > Note 2: The Runtime and Development images are derived from [Docker-REDHAWK-Ubuntu][docker-redhawk-ubuntu], which is currently based on Ubuntu 16.04, if that is your preference.
 
 ## Technical Considerations
 
-Since every Component has its own Docker image, one might believe this to be extremely expensive (in terms of hard drive space, network usage, etc.).  However once the Runtime image, common to all generated Components, is provisioned to the Docker-aware GPP, the small _delta_ of the derived Component image is the only part actually downloaded (which should be trivially small by comparison).
+Since every Component has its own Docker image, one might believe this to be extremely expensive (in terms of hard drive space, network usage, etc.), especially once we see the runtime base image is 2 GB.  However once the Runtime image, common to all generated Components, is provisioned to the Docker-aware GPP, the small _delta_ of the derived Component image is the only part actually downloaded (which should be trivially small by comparison).
+
+## Installation
+
+
+
+### On a GPP Host
+
+Though it is assumed this host is running a standard REDHAWK SDR installation (RPM-based), it is not required.  In either case, the installed GPP needs to be replaced by our Docker-GPP.  This will extend its functionality 
+
+In order to do this however, please uninstall your existing GPP in `$SDRROOT/dom/devices/GPP`.  Then compile the Docker-GPP and build the runtime image:
+
+```
+make gpp
+```
+
+Later, you will need to also build your Component container images as you convert flow graphs.  The conversion process will result in a Dockerfile and build script to help this process along.  [See Component Generation](#component-generation).
+
+For whatever user will run the Device Manager instance, add the `docker` group or perform whatever other necessary steps to allow that user access to running the Docker Daemon.
+
+ > Note: At this time, one has to manually provision GPPs with the images.  In the future, the Docker-GPP may be modified to issue `docker pull...` during load requests.
+
+ > Note: If at some point you want to uninstall the Docker-GPP, use `make uninstall-docker-gpp`.
+
+
+### On a Development Host
+
+The development environment can be instantiated on a Linux-based Docker host.  It provides scripts for running both the GNURadio Companion and the REDHAWK IDE.
+
+```
+make development
+```
+
+The following scripts are then linked:
+
+|Name|Purpose|
+|----|-------|
+| rhide | Runs the REDHAWK IDE |
+| gnuradio-companion | Runs the GNURadio Companion |
+| convert | Converts a GRC to a REDHAWK Component |
+
+Each script has its own `--help` menu describing the features.  For the two development environments, and unlike Docker-REDHAWK on which each are drived, these do not require creating Docker volumes for your workspace or SDRROOT.  Instead it is expected both will be locations on your host OS, if specified.  
+
+For example, the following will start a REDHAWK IDE:
+
+```
+./rhide --workspace ./workspace
+```
+
+You can then run the GNURadio Companion attached to that same environment:
+
+```
+./gnuradio-companion
+```
+
+ > Important: Whichever of the above two steps occurred first will be the instance controlling whether or not the container stays running.  So if you start the IDE and then close it while you work in GNURadio Companion, the companion will close as well.
+
+Proceed to [component generation](#component-generation) for converting Flow Graphs to Components.
+
+
+## Component Generation
+
+First, ensure you have the development image and conversion script available:
+
+```
+make convert geontech/gnuradio-redhawk-development
+```
+
+You can then convert an existing GRC and set its image name:
+
+```
+./convert my_flowgraph.grc --docker-image my_flowgraph
+```
+
+The resulting component will be generated into a subdirectory of your current working directory (use `--out` to overwrite this).  The directory has the typical files plus a few for Docker-based deployments:
+
+| File | Purpose | Usage |
+| `build.sh` | Installs the Component on the local file system | `./build.sh install` |
+| `Dockerfile` | Basic image that installs the Component into the runtime image environment | None unless you have other dependencies |
+| `build-image.sh` | Builds the image described in `Dockerfile` | `./build-image.sh` |
+
+ > Note: The `convert` script ignores the running development environment (if present) unless `--use-dev` is added to the command.  In that case, all file locations are treated as relative to the container's workspace (`/home/user/workspace`).
+
+### Component Installation
+
+**Domain and _ANY_ Development System:** run `./build.sh install` to load the Component so that it can be referenced in Waveforms.
+
+**Docker-GPP Hosts:** run `./build-image.sh` or use `docker pull` if the image is stored in a repository.  In the latter case, make certain the image is tagged exactly as described when running `convert`.
 
 
 [traditional-technical-considerations]: ../1-traditional/README.md#technical-considerations
