@@ -44,9 +44,13 @@ GPP_INSTALL_DIR := $(SDRROOT)/dev/devices/GPP
 GPP_INSTALL_TARGET:= $(GPP_INSTALL_DIR)/cpp/GPP
 GPP_MAKE_TARGETS := docker-gpp uninstall-docker-gpp
 
-.PHONY: all pull deliver clean helper_scripts $(REQUIRED_SUBMODS) $(GPP_MAKE_TARGETS)
+.PHONY: all development gpp pull deliver clean helper_scripts $(REQUIRED_SUBMODS) $(GPP_MAKE_TARGETS)
 
-all: $(ALL_IMAGES) $(LINKED_SCRIPTS) gpp
+all: development
+
+development: $(ALL_IMAGES) $(LINKED_SCRIPTS)
+
+gpp: $(RUNTIME_IMAGE) docker-gpp
 
 pull: $(LINKED_SCRIPTS)
 	$(foreach image,$(ALL_IMAGES),\
