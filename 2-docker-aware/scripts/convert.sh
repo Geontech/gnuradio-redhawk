@@ -119,7 +119,7 @@ if [[ ${USE_DEV} == 'YES' ]]; then
     DOCKER_CMD+=(exec -it -u user)
     DOCKER_NAME="gnuradio-redhawk-ui"
     DOCKER_GRC_FILE=${DOCKER_USER_WORKSPACE}/${GRC_FILE}
-    DOCKER_GRC_FILE=${DOCKER_USER_WORKSPACE}/${OUTPUT_DIR}
+    DOCKER_OUTPUT_DIR=${DOCKER_USER_WORKSPACE}/${OUTPUT_DIR}
 
     # Make sure it's running
     $DIR/container-running.sh ${DOCKER_NAME}
