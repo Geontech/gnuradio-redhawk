@@ -125,11 +125,14 @@ for_each_image = $(foreach image,$1,\
 		)\
 	)
 
-clean:
-	@$(eval result := $(call for_each_image,$(ALL_IMAGES)))
-	@rm -f $(LINKED_SCRIPTS)
+clean-integ:
 	@$(eval result := $(foreach mod,$(REQUIRED_SUBMODS),\
 		$(eval SUBMOD_DST := $(addprefix $(SUBMOD_DST_DIR),$(mod))) \
 		$(shell rm -rf $(SUBMOD_DST)) \
 		))
+
+
+clean: clean-integ
+	@$(eval result := $(call for_each_image,$(ALL_IMAGES)))
+	@rm -f $(LINKED_SCRIPTS)
 	@[ -d CF ] && rm -rf CF
