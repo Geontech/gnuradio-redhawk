@@ -27,6 +27,9 @@ GR_CC  := ../gr-component_converter
 
 all development: gpp
 	$(MAKE) -C $(GR_CC)
+	$(MAKE) -C $(GR_CC) install
 
 gpp:
 	$(MAKE) -C $(GR_RIP)
+	$(MAKE) -C $(GR_RIP) install
+
