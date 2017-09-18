@@ -31,8 +31,8 @@ Or, if you're interested in joining in the development of this capability as a c
 **[NB FM Modulator and Demodulator][gnuradio-nbfm]**: This is a similar integration effort that builds a Flow Graph _into_ a REDHAWK Component (C++ implementation).  Similarly, it includes source and sink blocks that translate between GNURadio ports and BULKIO.
 
 
-[gr-rip]: ./gr-redhawk_integration_python/README.md
-[gr-cc]: ./gr-component_converter/README.md
+[gr-rip]: https://github.com/Geontech/gr-redhawk_integration_python/blob/master/README.md
+[gr-cc]: https://github.com/Geontech/gr-component_converter/blob/master/README.md
 [docker-gpp]: https://github.com/GeonTech/core-framework/tree/docker-gpp
 [docker-redhawk]: https://github.com/GeonTech/docker-redhawk
 [docker-redhawk-ubuntu]: https://github.com/GeonTech/docker-redhawk-ubuntu
