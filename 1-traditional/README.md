@@ -32,25 +32,42 @@ In each of these cases, the user will need root-level permissions in order to in
 
 Install the integration package:
 
+```bash
+make rip
+make install-rip
 ```
-make gpp
-```
+
+ > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `rip`, above).
 
 ### On a Development Host
 
 Install both the integration package and the conversion tool:
 
-```
-make development
+```bash
+sudo make install-cc
+make rip
+make install-rip
 ```
 
+ > Note: The Component Converter has nothing to compile, but does get installed in `OSSIEHOME`, hence you may need root-level permissions (thus, `sudo`, above).
+
+ > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `rip`, above).
+
 Then proceed to [component generation](#component-generation).
+
+### Pybombs
+
+If Pybombs is used for installation of GNURadio, please note verify you are installing a supported version for the REDHAWK Integration Package ([see here][gr-rip-reqs]).  
+
+Compiling and installing the REDHAWK Integration Package, as well as running the REDHAWK GPP that may run GNURadio-integrated Components, requires first sourcing the Pybombs environment script so that its paths are available in the environment.
+
+If your user does not have write access to the GNURadio installation, you will need to use `su` or some other means when installing the REDHAWK Integration Package (i.e., if owned by root, `sudo make install-rip`).
 
 ## Component Generation
 
 Please see the [README.md][gr-cc] for more details on the converter's use cases and limitations.  The short form of usage is as follows:
 
-```
+```bash
 # From gr-component_converter
 ./run.py path/user.grc [output_path]
 ```
@@ -61,5 +78,6 @@ The resulting `output_path` will have the Component, ready to install in the `SD
 
 
 
- [gr-cc]: ../gr-component_converter/README.md
- [gr-rip]: ../gr-redhawk_integration_python/README.md
+ [gr-cc]: https://github.com/Geontech/gr-redhawk_integration_python/gr-component_converter/README.md
+ [gr-rip]: https://github.com/Geontech/gr-redhawk_integration_python/blob/master/README.md
+ [gr-rip-reqs]: https://github.com/Geontech/gr-redhawk_integration_python/blob/master/README.md#requirements
