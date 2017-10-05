@@ -4,6 +4,8 @@ In this approach, one replaces the standard GPP with [an extended version][docke
 
 This is the deployment strategy described at GRCon 2017.
 
+ > Note: This route requires building on [Docker-REDHAWK-Ubuntu images][docker-redhawk-ubuntu].  This currently requires using Docker v17 or better.  Please refer to Docker-REDHAWK-Ubuntu's documentation for more information.
+
 ## Why?
 
 By utilizing this modified GPP, the generated Component can have additional deployment requirements (allocable properties) that assist REDHAWK in locating a GPP that has the Component's associated Docker image locally cached.  This means the [traditional][traditional-technical-considerations] no longer apply since we're using more of the REDHAWK infrastructure and automation to our advantage.
