@@ -2,7 +2,7 @@
 
 Traditionally, a Component requiring special libraries, beyond the standard installation, would be deployed with one or more shared library dependency(ies) which would ensure that REDHAWK installed the library(ies) at a GPP before loading and executing the Component.  Something like GNURadio which has a runtime engine requires a different approach.  
 
-One possible path to support this traditional deployment mechanism is to pre-provision the GPP(s) with GNURadio and the associated `redhawk_integration_python` package by directly installing both, locally, to the GPP host.  Additionally, any end-user package dependencies for the associated Flow Graph would also need to be installed at each GPP.
+One possible path to support this traditional deployment mechanism is to pre-provision the GPP(s) with GNURadio and the associated `gr-redhawk_integration` package by directly installing both, locally, to the GPP host.  Additionally, any end-user package dependencies for the associated Flow Graph would also need to be installed at each GPP.
 
 ## Why?
 
@@ -14,7 +14,7 @@ The steps are as direct as it sounds.  Wherever there is a Device Manager with a
 
 1. GNURadio
 2. Any support blocks/libraries required for the superset of the available Flow Graphs that may be deployed
-3. `gr-redhawk_integration_python`
+3. `gr-redhawk_integration`
 
  > **Note:** You cannot use a mix of provisionings in this case unless you manually specify each GPP that will be running a specific Component-wrapped Flow Graph.
 
@@ -26,18 +26,18 @@ This use case involves a standard GPP (i.e., from REDHAWK SDR's published RPM). 
 
 ## Installation
 
-In each of these cases, the user will need root-level permissions in order to install the Source and Sink blocks from the [integration package][gr-rip].
+In each of these cases, the user will need root-level permissions in order to install the Source and Sink blocks from the [integration package][gr-ri].
 
 ### On a GPP Host
 
 Install the integration package:
 
 ```bash
-make rip
-make install-rip
+make ri
+make install-ri
 ```
 
- > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `rip`, above).
+ > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `ri`, above).
 
 ### On a Development Host
 
@@ -45,23 +45,23 @@ Install both the integration package and the conversion tool:
 
 ```bash
 sudo make install-cc
-make rip
-make install-rip
+make ri
+make install-ri
 ```
 
  > Note: The Component Converter has nothing to compile, but does get installed in `OSSIEHOME`, hence you may need root-level permissions (thus, `sudo`, above).
 
- > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `rip`, above).
+ > Note: Please see [the note](#pybombs) about whether or not root permissions are required for installing the REDHAWK Integration Package (a.k.a., `ri`, above).
 
 Then proceed to [component generation](#component-generation).
 
 ### Pybombs
 
-If Pybombs is used for installation of GNURadio, please note verify you are installing a supported version for the REDHAWK Integration Package ([see here][gr-rip-reqs]).  
+If Pybombs is used for installation of GNURadio, please note verify you are installing a supported version for the REDHAWK Integration Package ([see here][gr-ri-reqs]).  
 
 Compiling and installing the REDHAWK Integration Package, as well as running the REDHAWK GPP that may run GNURadio-integrated Components, requires first sourcing the Pybombs environment script so that its paths are available in the environment.
 
-If your user does not have write access to the GNURadio installation, you will need to use `su` or some other means when installing the REDHAWK Integration Package (i.e., if owned by root, `sudo make install-rip`).
+If your user does not have write access to the GNURadio installation, you will need to use `su` or some other means when installing the REDHAWK Integration Package (i.e., if owned by root, `sudo make install-ri`).
 
 ## Component Generation
 
@@ -78,6 +78,6 @@ The resulting `output_path` will have the Component, ready to install in the `SD
 
 
 
- [gr-cc]: https://github.com/Geontech/gr-redhawk_integration_python/gr-component_converter/README.md
- [gr-rip]: https://github.com/Geontech/gr-redhawk_integration_python/blob/master/README.md
- [gr-rip-reqs]: https://github.com/Geontech/gr-redhawk_integration_python/blob/master/README.md#requirements
+ [gr-cc]: https://github.com/Geontech/gr-component_converter/README.md
+ [gr-ri]: https://github.com/Geontech/gr-redhawk_integration/blob/master/README.md
+ [gr-rip-reqs]: https://github.com/Geontech/gr-redhawk_integration/blob/master/README.md#requirements

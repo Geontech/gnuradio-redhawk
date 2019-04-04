@@ -16,29 +16,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-VERSION := 2.0.6
+VERSION := 2.2.1
 
-.PHONY: all rip-src rip install-rip cc-src cc install-cc install
+.PHONY: all ri-src ri install-ri cc-src cc install-cc install
 
 # REDHAWK Integration Package and Component Converter locations
-GR_RIP := ../gr-redhawk_integration_python
+GR_RI := ../gr-redhawk_integration
 GR_CC  := ../gr-component_converter
 
-all: rip cc
+all: ri cc
 
 install:
-	$(error Please use install-rip and install-cc individually.)
+	$(error Please use install-ri and install-cc individually.)
 
-install-rip: rip
-	$(MAKE) -C $(GR_RIP) install
+install-ri: ri
+	$(MAKE) -C $(GR_RI) install
 
 install-cc: cc
 	$(MAKE) -C $(GR_CC) install
 
-rip-src: $(GR_RIP)/Makefile
+ri-src: $(GR_RI)/Makefile
 
-rip: rip-src
-	$(MAKE) -C $(GR_RIP)
+ri: ri-src
+	$(MAKE) -C $(GR_RI)
 
 
 cc-src: $(GR_CC)/Makefile
