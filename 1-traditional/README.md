@@ -78,6 +78,6 @@ The resulting `output_path` will have the Component, ready to install in the `SD
 
 
 
- [gr-cc]: https://github.com/Geontech/gr-component_converter/README.md
+ [gr-cc]: https://github.com/Geontech/gr-component_converter/blob/master/README.md
  [gr-ri]: https://github.com/Geontech/gr-redhawk_integration/blob/master/README.md
  [gr-rip-reqs]: https://github.com/Geontech/gr-redhawk_integration/blob/master/README.md#requirements
