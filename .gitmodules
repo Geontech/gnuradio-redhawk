@@ -1,6 +1,6 @@
 [submodule "gr-component_converter"]
 	path = gr-component_converter
 	url = ../gr-component_converter
-[submodule "gr-redhawk_integration_python"]
-	path = gr-redhawk_integration_python
-	url = ../gr-redhawk_integration_python
+[submodule "gr-redhawk_integration"]
+	path = gr-redhawk_integration
+	url = ../gr-redhawk_integration
