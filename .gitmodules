@@ -3,4 +3,4 @@
 	url = ../gr-component_converter
 [submodule "gr-redhawk_integration"]
 	path = gr-redhawk_integration
-	url = ../gr-redhawk_integration
+	url = https://github.com/geontech/gr-redhawk_integration.git
