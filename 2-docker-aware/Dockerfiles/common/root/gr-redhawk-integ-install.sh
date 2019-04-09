@@ -20,8 +20,21 @@
 
 set -e
 
+# Install git, curl
+tiny-apt add curl git
+
+# Install pip
+curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+chmod +x get-pip.py
+./get-pip.py && rm get-pip.py
+
 # Install cmake (and gnuradio, which should already be installed)
-tiny-apt add cmake gnuradio
+#tiny-apt add cmake gnuradio
+pip install git+https://github.com/gnuradio/pybombs.git
+pybombs auto-config
+pybombs recipes add-defaults
+pybombs prefix init ~/prefix -a myprefix -R gnuradio-default
+source ~/prefix/setup_env.sh
 
 # Build and install Geon's CORBA Ports
 . /etc/profile
@@ -31,4 +44,4 @@ cmake ..
 make install
 
 # Clean up.
-tiny-apt clean
+#tiny-apt clean
