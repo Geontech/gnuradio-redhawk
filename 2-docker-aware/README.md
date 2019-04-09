@@ -18,11 +18,11 @@ The process for developing this support was as follows.  These steps have alread
 
 1. Extend the [Docker-REDHAWK][docker-redhawk] Runtime image to be a new base image with:
    1. GNURadio
-   2. `gr-redhawk_integration_python`
+   2. `gr-redhawk_integration`
 
 2. Extend this new image similar to the [Docker-REDHAWK][docker-redhawk] Development image definition, but also including:
    1. GNURadio
-   2. `gr-redhawk_integration_python`
+   2. `gr-redhawk_integration`
    3. `gr-component_converter`
    4. Script or other functionality to support running the GNURadio Companion (like the REDHAWK IDE, rhide.sh, script)
 
