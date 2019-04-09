@@ -16,12 +16,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-FROM geontech/redhawk-ubuntu-runtime:2.0.6
+FROM geontech/redhawk-ubuntu-runtime:2.2.1
 LABEL name="GNURadio and REDHAWK SDR Runtime" \
     description="REDHAWK SDR with GNURadio installed"
 
 # Install GNURadio, Geon's data ports
-COPY integ/gr-redhawk_integration_python /root/gr-redhawk_integration_python
+COPY integ/gr-redhawk_integration /root/gr-redhawk_integration
 COPY common/ /
 RUN /root/gnuradio-install.sh
 RUN /root/gr-redhawk-integ-install.sh

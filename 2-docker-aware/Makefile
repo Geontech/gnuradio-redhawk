@@ -31,12 +31,12 @@ DEVELOPMENT_IMAGE := $(IMAGE_PREFIX)development
 ALL_IMAGES := $(RUNTIME_IMAGE) $(DEVELOPMENT_IMAGE)
 LINKED_SCRIPTS := gnuradio-companion rhide convert
 
-REQUIRED_SUBMODS := gr-component_converter gr-redhawk_integration_python
+REQUIRED_SUBMODS := gr-component_converter gr-redhawk_integration
 SUBMOD_DST_DIR := ./Dockerfiles/integ/
 SUBMOD_SRC_DIR := ../
 
 # Docker GPP Related
-DOCKER_GPP_REPO := -b docker-gpp git://github.com/GeonTech/core-framework
+DOCKER_GPP_REPO := -b docker-2.2.1 git://github.com/GeonTech/core-framework
 CF_DIR := CF
 GPP_BUILD_DIR := $(CF_DIR)/GPP
 GPP_BUILD_TARGET := $(GPP_BUILD_DIR)/cpp/GPP

@@ -1,2 +1,2 @@
 #!/bin/bash
-printf "2.0.6"
+printf "2.2.1"

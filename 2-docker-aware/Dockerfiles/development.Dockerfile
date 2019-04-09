@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 #
-FROM geontech/gnuradio-redhawk-runtime:2.0.6
+FROM geontech/gnuradio-redhawk-runtime:2.2.1
 LABEL name="GNURadio and REDHAWK SDR Development (Ubuntu)" \
     description="REDHAWK SDR with GNURadio w/ Development Environments"
 
