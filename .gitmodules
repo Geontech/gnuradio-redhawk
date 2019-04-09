@@ -1,6 +1,6 @@
 [submodule "gr-component_converter"]
 	path = gr-component_converter
-	url = ../gr-component_converter
+	url = https://github.com/geontech//gr-component_converter.git
 [submodule "gr-redhawk_integration"]
 	path = gr-redhawk_integration
 	url = https://github.com/geontech/gr-redhawk_integration.git
