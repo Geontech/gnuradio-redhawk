@@ -25,7 +25,9 @@ tiny-apt add cmake gnuradio
 
 # Build and install Geon's CORBA Ports
 . /etc/profile
-pushd /root/gr-redhawk_integration_python
+pushd /root/gr-redhawk_integration
+mkdir -p build && cd build
+cmake ..
 make install
 
 # Clean up.
