@@ -23,6 +23,5 @@ LABEL name="GNURadio and REDHAWK SDR Runtime" \
 # Install GNURadio, Geon's data ports
 COPY integ/gr-redhawk_integration /root/gr-redhawk_integration
 COPY common/ /
-RUN /root/gnuradio-install.sh
 RUN /root/gr-redhawk-integ-install.sh
 
