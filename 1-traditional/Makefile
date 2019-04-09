@@ -30,15 +30,19 @@ install:
 	$(error Please use install-ri and install-cc individually.)
 
 install-ri: ri
-	$(MAKE) -C $(GR_RI) install
+	$(MAKE) -C $(GR_RI)/build install
 
 install-cc: cc
 	$(MAKE) -C $(GR_CC) install
 
-ri-src: $(GR_RI)/Makefile
+ri-src: $(GR_RI)/CMakeLists.txt
+	$(shell mkdir -p $(GR_RI)/build)
 
-ri: ri-src
-	$(MAKE) -C $(GR_RI)
+ri-cmake: ri-src
+	$(shell cd $(GR_RI)/build && cmake ..)
+ 
+ri: ri-cmake
+	$(MAKE) -C $(GR_RI)/build
 
 
 cc-src: $(GR_CC)/Makefile
