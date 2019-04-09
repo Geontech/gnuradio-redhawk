@@ -26,7 +26,7 @@ def download_asset(path, url):
         return asset_path
 
 def handle_release_assets(assets):
-    assets = [ asset for asset in assets if re.match(r'redhawk-ide.+?(?=x86_64)', asset['name'])]
+    assets = [ asset for asset in assets if re.match(r'redhawk-ide.+?(?=el7).+?(?=x86_64)', asset['name'])]
     if not assets:
         sys.exit('Failed to find the IDE asset')
     elif len(assets) > 1:

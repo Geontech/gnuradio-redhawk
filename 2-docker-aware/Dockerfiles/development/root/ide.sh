@@ -24,10 +24,10 @@ export JAVA_HOME=$(readlink -f "/usr/lib/jvm/default-java")
 . /etc/profile
 
 # Source some helper functions
-source ./base-deps-func.sh
+#source ./base-deps-func.sh
 
 # Install build dependencies.
-install_build_deps
+#install_build_deps
 
 # Download the IDE
 INSTALL_DIR="${OSSIEHOME}/../ide/${RH_VERSION}"
