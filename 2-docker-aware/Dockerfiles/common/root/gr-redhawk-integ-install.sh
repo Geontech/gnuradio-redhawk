@@ -20,21 +20,39 @@
 
 set -e
 
-# Install git, curl
-tiny-apt add curl git
+# Dependencies
+apt-get update
+apt-get -y install git-core cmake g++ python-dev swig \
+pkg-config libfftw3-dev libboost-all-dev libcppunit-dev libgsl0-dev \
+libusb-dev libsdl1.2-dev python-wxgtk3.0 python-numpy \
+python-cheetah python-lxml doxygen libxi-dev python-sip \
+libqt4-opengl-dev libqwt-dev libfontconfig1-dev libxrender-dev \
+python-sip python-sip-dev python-qt4 python-sphinx libusb-1.0-0-dev \
+libcomedi-dev libzmq-dev build-essential python-docutils python-mako \
+libusb-1.0-0-dev python-setuptools python-gtk2
 
-# Install pip
-curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-chmod +x get-pip.py
-./get-pip.py && rm get-pip.py
+# Clone
+git clone git://github.com/EttusResearch/uhd.git
+git clone -b maint-3.7 --recursive git://github.com/gnuradio/gnuradio.git
 
-# Install cmake (and gnuradio, which should already be installed)
-#tiny-apt add cmake gnuradio
-pip install git+https://github.com/gnuradio/pybombs.git
-pybombs auto-config
-pybombs recipes add-defaults
-pybombs prefix init ~/prefix -a myprefix -R gnuradio-default
-source ~/prefix/setup_env.sh
+## UHD ##
+pushd /root/uhd/host
+mkdir build && cd build
+cmake ..
+make
+make install
+ldconfig
+popd
+
+## GNURADIO ##
+pushd /root/gnuradio
+mkdir build && cd build
+cmake .. -DENABLE_GR_AUDIO=ON -DENABLE_GR_BLOCKS=ON -DENABLE_GR_DIGITAL=ON -DENABLE_GR_FEC=ON -DENABLE_GR_FFT=ON -DENABLE_GR_FILTER=ON -DENABLE_GR_QTGUI=ON -DENABLE_GR_UHD=ON -DENABLE_PYTHON=ON -DENABLE_VOLK=ON -DENABLE_GRC=ON
+make
+make install
+popd
+
+
 
 # Build and install Geon's CORBA Ports
 . /etc/profile
@@ -44,4 +62,4 @@ cmake ..
 make install
 
 # Clean up.
-#tiny-apt clean
+tiny-apt clean
